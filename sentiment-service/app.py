@@ -8,22 +8,27 @@ def analyze_sentiment():
     data = request.get_json()
     review_text = data.get('review')
 
+
     if not review_text:
         return jsonify({'error': 'No review text provided'}), 400
 
+    print(f"Review text received: {review_text}")
+
+    # Perform sentiment analysis on the entire review
     blob = TextBlob(review_text)
     polarity = blob.sentiment.polarity
 
-    if polarity > 0:
+    # Determine sentiment category
+    if polarity > 0.1:
         sentiment = 'Positive'
-    elif polarity == 0:
-        sentiment = 'Neutral'
-    else:
+    elif polarity < -0.1:
         sentiment = 'Negative'
+    else:
+        sentiment = 'Neutral'
 
     return jsonify({
         'sentiment': sentiment,
-        'score': polarity
+        'score': round(polarity, 4)
     })
 
 if __name__ == '__main__':
