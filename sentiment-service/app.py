@@ -16,12 +16,12 @@ def analyze_sentiment():
 
     # Perform sentiment analysis on the entire review
     blob = TextBlob(review_text)
-    polarity = blob.sentiment.polarity
+    polarity = blob.sentiment.polarity * 10000
 
     # Determine sentiment category
-    if polarity > 0.1:
+    if polarity > 5:
         sentiment = 'Positive'
-    elif polarity < -0.1:
+    elif polarity < -5:
         sentiment = 'Negative'
     else:
         sentiment = 'Neutral'
